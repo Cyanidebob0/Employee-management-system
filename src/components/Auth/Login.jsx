@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-const App = () => {
+const Login = ({ handleLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    handleLogin(username, password);
     setUsername("");
     setPassword("");
   };
@@ -59,4 +60,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Login;
