@@ -1,6 +1,7 @@
 const employee = [
   {
     id: 1,
+    name: "Alice Johnson",
     email: "employee1@example.com",
     password: "123",
     tasks: [
@@ -35,9 +36,16 @@ const employee = [
         failed: false,
       },
     ],
+    taskNumbers: {
+      active: 2,
+      newTask: 1,
+      completed: 1,
+      failed: 0,
+    },
   },
   {
     id: 2,
+    name: "Bob Smith",
     email: "employee2@example.com",
     password: "123",
     tasks: [
@@ -72,9 +80,16 @@ const employee = [
         failed: false,
       },
     ],
+    taskNumbers: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 0,
+    },
   },
   {
     id: 3,
+    name: "Charlie Davis",
     email: "employee3@example.com",
     password: "123",
     tasks: [
@@ -99,9 +114,16 @@ const employee = [
         failed: true,
       },
     ],
+    taskNumbers: {
+      active: 1,
+      newTask: 2,
+      completed: 0,
+      failed: 1,
+    },
   },
   {
     id: 4,
+    name: "Diana Evans",
     email: "employee4@example.com",
     password: "123",
     tasks: [
@@ -136,9 +158,16 @@ const employee = [
         failed: true,
       },
     ],
+    taskNumbers: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 1,
+    },
   },
   {
     id: 5,
+    name: "Ethan Green",
     email: "employee5@example.com",
     password: "123",
     tasks: [
@@ -183,12 +212,19 @@ const employee = [
         failed: false,
       },
     ],
+    taskNumbers: {
+      active: 3,
+      newTask: 2,
+      completed: 1,
+      failed: 0,
+    },
   },
 ];
 
 const admin = [
   {
     id: 1,
+    name: "Admin User",
     email: "admin@example.com",
     password: "123",
   },
@@ -200,8 +236,8 @@ export const setLoclStorage = () => {
 };
 
 export const getLoclStorage = () => {
-  const employees = JSON.parse(localStorage.getItem("employees") || []);
-  const admin = JSON.parse(localStorage.getItem("admin" || []));
+  const employees = JSON.parse(localStorage.getItem("employees") || "[]");
+  const admin = JSON.parse(localStorage.getItem("admin") || "[]");
 
   return { employees, admin };
 };

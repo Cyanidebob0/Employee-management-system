@@ -5,30 +5,60 @@ import AdminDashboard from "./components/Dashboard/AdminDashboard";
 import { AuthContext } from "./context/AuthProvider";
 
 const App = () => {
-  const [user, setUser] = useState("");
-
+  const [user, setUser] = useState(null);
+  const [loggedInUserData, setLoggedInUserData] = useState(null);
   const authData = useContext(AuthContext);
 
-  const handleLogin = (email, password) => {
-    if (
-      authData?.admin?.find((a) => a.email === email && a.password === password)
-    ) {
-      setUser("a");
-    } else if (
-      authData &&
-      authData.employees.find((e) => email == e.email && e.password == password)
-    ) {
-      setUser("u");
-    } else {
-      alert("Invalid credentials");
-    }
+  // useEffect(() => {
+  //   if (authData) {
+  //     const loggedInUser = localStorage.getItem("loggedInUser");
+  //     if (loggedInUser) {
+  //       setUser(loggedInUser.role);
+  //     }
+  //   }
+  // }, [authData]);
+
+  const clearInput = (setUsername, setPassword) => {
+    setUsername("");
+    setPassword("");
   };
 
-  return (
-    <>
-      {!user ? <Login handleLogin={handleLogin} /> : ""}
-      {user === "u" ? <EmployeeDashboard /> : <AdminDashboard />}
-    </>
+  const handleLogin = (email, password) => {
+    if (authData) {
+      const admin = authData.admin.find(
+        (a) => a.email === email && a.password === password
+      );
+      if (admin) {
+        setUser("admin");
+        localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
+        clearInput(setUsername, setPassword);
+        return;
+      }
+
+      const employee = authData.employees.find(
+        (e) => email === e.email && e.password === password
+      );
+      if (employee) {
+        setLoggedInUserData(employee);
+        setUser("employee");
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ role: "employee" })
+        );
+        clearInput(setUsername, setPassword);
+        return;
+      }
+    }
+
+    alert("Invalid credentials");
+  };
+
+  if (!user) return <Login handleLogin={handleLogin} clearInput={clearInput} />;
+
+  return user === "employee" ? (
+    <EmployeeDashboard data={loggedInUserData} />
+  ) : (
+    <AdminDashboard />
   );
 };
 
