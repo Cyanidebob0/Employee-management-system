@@ -1,27 +1,22 @@
 import React from "react";
 
 const AcceptTask = ({ data }) => {
+  console.log();
   return (
-    <div className="flex-shrink-0 h-full w-[320px] bg-blue-200 p-5 rounded-xl shadow-md">
+    <div className="flex-shrink-0 h-full w-[300px] p-5 bg-red-400 rounded-xl">
       <div className="flex justify-between items-center">
-        <h3 className="bg-red-500 text-white text-sm px-3 py-1 rounded-md font-medium shadow-sm">
+        <h3 className="bg-red-600 text-sm px-3 py-1 rounded">
           {data.category}
         </h3>
-        <h4 className="text-gray-700 text-sm font-light">{data.date}</h4>
+        <h4 className="text-sm">{data.taskDate}</h4>
       </div>
-
-      <h2 className="mt-4 text-2xl font-semibold text-black leading-snug">
-        {data.title}
-      </h2>
-
-      <p className="text-sm mt-3 text-black leading-relaxed">
-        {data.description}
-      </p>
-      <div className="mt-6 flex space-x-2">
-        <button className="bg-green-500 text-white py-1 px-2 rounded-md hover:bg-green-600 transition duration-300 shadow-md">
-          Mark as completed
+      <h2 className="mt-5 text-2xl font-semibold">{data.taskTitle}</h2>
+      <p className="text-sm mt-2">{data.taskDescription}</p>
+      <div className="flex justify-between mt-6 ">
+        <button className="bg-green-500 rounded font-medium py-1 px-2 text-xs">
+          Mark as Completed
         </button>
-        <button className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md">
+        <button className="bg-red-500 rounded font-medium py-1 px-2 text-xs">
           Mark as Failed
         </button>
       </div>

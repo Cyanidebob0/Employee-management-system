@@ -2,49 +2,36 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 
 const AllTask = () => {
-  const authData = useContext(AuthContext);
+  const [userData, setUserData] = useContext(AuthContext);
+
   return (
-    <div id="tasklist" className="bg-black flex flex-col h-[35%]">
-      <div id="tasklist" className="bg-black flex flex-col h-[35%]">
-        <div className="flex items-center justify-between bg-zinc-700 p-4 w-full mb-4 rounded-md h-20">
-          <h2 className="text-white font-bold text-xl flex-1 text-center">
-            Employee Name
-          </h2>
-          <h3 className="text-white font-bold text-xl flex-1 text-center">
-            New Task
-          </h3>
-          <h5 className="text-white font-bold text-xl flex-1 text-center">
-            Active Task
-          </h5>
-          <h5 className="text-white font-bold text-xl flex-1 text-center">
-            Completed
-          </h5>
-          <h5 className="text-white font-bold text-xl flex-1 text-center mr-4">
-            Failed
-          </h5>
-        </div>
+    <div className="bg-[#1c1c1c] p-5 rounded mt-5">
+      <div className="bg-red-400 mb-2 py-2 px-4 flex justify-between rounded">
+        <h2 className="text-lg font-medium w-1/5">Employee Name</h2>
+        <h3 className="text-lg font-medium w-1/5">New Task</h3>
+        <h5 className="text-lg font-medium w-1/5">Active Task</h5>
+        <h5 className="text-lg font-medium w-1/5">Completed</h5>
+        <h5 className="text-lg font-medium w-1/5">Failed</h5>
       </div>
-      <div className="flex-grow overflow-auto">
-        {authData.employees.map((ele) => {
+      <div className="">
+        {userData.map(function (elem, idx) {
           return (
             <div
-              className="flex items-center justify-between h-16 bg-zinc-900 p-4 w-full mb-4 rounded-md"
-              key={ele.id}
+              key={idx}
+              className="border-2 border-emerald-500 mb-2 py-2 px-4 flex justify-between rounded"
             >
-              <h2 className="text-white text-xl font-normal flex-1">
-                {ele.name}
-              </h2>
-              <h3 className="text-blue-400 font-normal text-xl flex-1 text-center">
-                {ele.taskNumbers.active}
+              <h2 className="text-lg font-medium  w-1/5">{elem.firstName}</h2>
+              <h3 className="text-lg font-medium w-1/5 text-blue-400">
+                {elem.taskCounts.newTask}
               </h3>
-              <h5 className="text-yellow-400 font-normal text-xl flex-1 text-center">
-                {ele.taskNumbers.newTask}
+              <h5 className="text-lg font-medium w-1/5 text-yellow-400">
+                {elem.taskCounts.active}
               </h5>
-              <h5 className="text-green-400 font-normal text-xl flex-1 text-center">
-                {ele.taskNumbers.completed}
+              <h5 className="text-lg font-medium w-1/5 text-white">
+                {elem.taskCounts.completed}
               </h5>
-              <h5 className="text-red-500 font-normal text-xl flex-1 text-center">
-                {ele.taskNumbers.failed}
+              <h5 className="text-lg font-medium w-1/5 text-red-600">
+                {elem.taskCounts.failed}
               </h5>
             </div>
           );

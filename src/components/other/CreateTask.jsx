@@ -1,58 +1,122 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthProvider";
 
 const CreateTask = () => {
+  const [userData, setUserData] = useContext(AuthContext);
+
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [taskDate, setTaskDate] = useState("");
+  const [asignTo, setAsignTo] = useState("");
+  const [category, setCategory] = useState("");
+
+  const [newTask, setNewTask] = useState({});
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    setNewTask({
+      taskTitle,
+      taskDescription,
+      taskDate,
+      category,
+      active: false,
+      newTask: true,
+      failed: false,
+      completed: false,
+    });
+
+    const data = userData;
+
+    data.forEach(function (elem) {
+      if (asignTo == elem.firstName) {
+        elem.tasks.push(newTask);
+        elem.taskCounts.newTask = elem.taskCounts.newTask + 1;
+      }
+    });
+    setUserData(data);
+    console.log(data);
+
+    setTaskTitle("");
+    setCategory("");
+    setAsignTo("");
+    setTaskDate("");
+    setTaskDescription("");
+  };
+
   return (
-    <div className="flex-grow bg-black flex items-center justify-center ">
-      <form className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="mb-6">
-          <h3 className="text-gray-300 text-lg font-semibold mb-2">
-            Task Title
-          </h3>
-          <input
-            type="text"
-            placeholder="Create a task"
-            className="w-full p-3 rounded-md bg-gray-700 text-gray-200 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-500"
-          />
+    <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
+      <form
+        onSubmit={(e) => {
+          submitHandler(e);
+        }}
+        className="flex flex-wrap w-full items-start justify-between"
+      >
+        <div className="w-1/2">
+          <div>
+            <h3 className="text-sm text-gray-300 mb-0.5">Task Title</h3>
+            <input
+              value={taskTitle}
+              onChange={(e) => {
+                setTaskTitle(e.target.value);
+              }}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              type="text"
+              placeholder="Make a UI design"
+            />
+          </div>
+          <div>
+            <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
+            <input
+              value={taskDate}
+              onChange={(e) => {
+                setTaskDate(e.target.value);
+              }}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              type="date"
+            />
+          </div>
+          <div>
+            <h3 className="text-sm text-gray-300 mb-0.5">Asign to</h3>
+            <input
+              value={asignTo}
+              onChange={(e) => {
+                setAsignTo(e.target.value);
+              }}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              type="text"
+              placeholder="employee name"
+            />
+          </div>
+          <div>
+            <h3 className="text-sm text-gray-300 mb-0.5">Category</h3>
+            <input
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+              }}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              type="text"
+              placeholder="design, dev, etc"
+            />
+          </div>
         </div>
-        <div className="mb-6 md:row-span-2">
-          <h3 className="text-gray-300 text-lg font-semibold mb-2">
-            Description
-          </h3>
+
+        <div className="w-2/5 flex flex-col items-start">
+          <h3 className="text-sm text-gray-300 mb-0.5">Description</h3>
           <textarea
-            cols="30"
-            rows="6"
-            className="w-full p-3 rounded-md bg-gray-700 text-gray-200 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-500"
-            placeholder="Describe the task"
+            value={taskDescription}
+            onChange={(e) => {
+              setTaskDescription(e.target.value);
+            }}
+            className="w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400"
+            name=""
+            id=""
           ></textarea>
+          <button className="bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full">
+            Create Task
+          </button>
         </div>
-        <div className="mb-6">
-          <h3 className="text-gray-300 text-lg font-semibold mb-2">Date</h3>
-          <input
-            type="date"
-            className="w-full p-3 rounded-md bg-gray-700 text-gray-200 outline-none focus:ring-2 focus:ring-gray-500"
-          />
-        </div>
-        <div className="mb-6">
-          <h3 className="text-gray-300 text-lg font-semibold mb-2">
-            Assign to
-          </h3>
-          <input
-            type="text"
-            placeholder="Employee name"
-            className="w-full p-3 rounded-md bg-gray-700 text-gray-200 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-500"
-          />
-        </div>
-        <div className="mb-6">
-          <h3 className="text-gray-300 text-lg font-semibold mb-2">Category</h3>
-          <input
-            type="text"
-            placeholder="design, dev, etc"
-            className="w-full p-3 rounded-md bg-gray-700 text-gray-200 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-500"
-          />
-        </div>
-        <button className="w-full bg-red-600 text-white py-3 rounded-md font-semibold hover:bg-red-700 transition md:col-span-2">
-          Create Task
-        </button>
       </form>
     </div>
   );

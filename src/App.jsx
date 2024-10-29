@@ -7,59 +7,48 @@ import { AuthContext } from "./context/AuthProvider";
 const App = () => {
   const [user, setUser] = useState(null);
   const [loggedInUserData, setLoggedInUserData] = useState(null);
-  const authData = useContext(AuthContext);
+  const [userData, SetUserData] = useContext(AuthContext);
 
   useEffect(() => {
-    const loggedInuser = localStorage.getItem("loggedInUser");
+    const loggedInUser = localStorage.getItem("loggedInUser");
 
-    if (loggedInuser) {
-      const userData = JSON.parse(loggedInuser);
+    if (loggedInUser) {
+      const userData = JSON.parse(loggedInUser);
       setUser(userData.role);
       setLoggedInUserData(userData.data);
     }
   }, []);
 
-  const clearInput = (setUsername, setPassword) => {
-    setUsername("");
-    setPassword("");
-  };
-
-  const handleLogin = (email, password, setUsername, setPassword) => {
-    if (authData) {
-      const admin = authData.admin.find(
-        (a) => a.email === email && a.password === password
-      );
-      if (admin) {
-        setUser("admin");
-        localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
-        clearInput(setUsername, setPassword);
-        return;
-      }
-
-      const employee = authData.employees.find(
-        (e) => email === e.email && e.password === password
+  const handleLogin = (email, password) => {
+    if (email == "admin@me.com" && password == "123") {
+      setUser("admin");
+      localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
+    } else if (userData) {
+      const employee = userData.find(
+        (e) => email == e.email && e.password == password
       );
       if (employee) {
-        setLoggedInUserData(employee);
         setUser("employee");
+        setLoggedInUserData(employee);
         localStorage.setItem(
           "loggedInUser",
           JSON.stringify({ role: "employee", data: employee })
         );
-        clearInput(setUsername, setPassword);
-        return;
       }
+    } else {
+      alert("Invalid Credentials");
     }
-
-    alert("Invalid credentials");
   };
 
-  if (!user) return <Login handleLogin={handleLogin} clearInput={clearInput} />;
-
-  return user === "employee" ? (
-    <EmployeeDashboard data={loggedInUserData} />
-  ) : (
-    <AdminDashboard />
+  return (
+    <>
+      {!user ? <Login handleLogin={handleLogin} /> : ""}
+      {user == "admin" ? (
+        <AdminDashboard changeUser={setUser} />
+      ) : user == "employee" ? (
+        <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
+      ) : null}
+    </>
   );
 };
 

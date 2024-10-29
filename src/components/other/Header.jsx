@@ -1,9 +1,9 @@
 import React from "react";
 
-const Header = () => {
+const Header = (props) => {
   const logOut = () => {
     localStorage.setItem("loggedInUser", "");
-    window.location.reload();
+    props.changeUser("");
   };
   return (
     <div className="flex justify-between p-14 ">

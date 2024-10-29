@@ -2,15 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  color:white;
-  overflow-x: hidden;
+*{
+  color: #fff;
 }
-
+body{
+  background-color: #111;
+}
 #tasklist::-webkit-scrollbar{
-  display: none;
+    background-color: transparent;
+    height: 5px;
+}
+#tasklist::-webkit-scrollbar-thumb{
+  background-color: rgb(143, 143, 143);
+  border-radius: 50px;
 }
