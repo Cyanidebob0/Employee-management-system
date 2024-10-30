@@ -10,12 +10,10 @@ const CreateTask = () => {
   const [asignTo, setAsignTo] = useState("");
   const [category, setCategory] = useState("");
 
-  const [newTask, setNewTask] = useState({});
-
   const submitHandler = (e) => {
     e.preventDefault();
 
-    setNewTask({
+    const newTask = {
       taskTitle,
       taskDescription,
       taskDate,
@@ -24,12 +22,12 @@ const CreateTask = () => {
       newTask: true,
       failed: false,
       completed: false,
-    });
+    };
 
     const data = userData;
 
     data.forEach(function (elem) {
-      if (asignTo == elem.firstName) {
+      if (asignTo === elem.firstName) {
         elem.tasks.push(newTask);
         elem.taskCounts.newTask = elem.taskCounts.newTask + 1;
       }
