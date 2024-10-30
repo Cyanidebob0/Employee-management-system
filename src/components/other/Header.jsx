@@ -5,11 +5,14 @@ const Header = (props) => {
     localStorage.setItem("loggedInUser", "");
     props.changeUser("");
   };
+
   return (
     <div className="flex justify-between p-14 ">
       <h1 className="text-2xl ">
         Hello <br />
-        <span className="text-3xl">✋</span>
+        <span className="text-3xl">
+          {props.data ? `${props.data.firstName} ✋` : "Admin ✋"}
+        </span>
       </h1>
       <button
         onClick={logOut}
